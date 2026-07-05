@@ -44,12 +44,18 @@ if (!process.env.TWITCH_CLIENT_ID || !process.env.TWITCH_CLIENT_SECRET) {
     next();
   })
 
-  router.get('/', passport.authenticate('twitch', {scope: ['chat_login']}))
+  // Twitch removed the legacy 'chat_login' scope in 2020; use current scopes.
+  router.get(
+    '/',
+    passport.authenticate('twitch', {
+      scope: ['user:read:email', 'chat:read', 'chat:edit']
+    })
+  )
 
   router.get('/callback', passport.authenticate('twitch', { failureRedirect: '/login' }),
     async (req, res, next) => {
       const {code} = req.query
-      const user = await User.findById(req.user.id)
+      const user = await User.findByPk(req.user.id)
       req.user = await user.update({twitchAuthCode: code})
       res.redirect('/home')
   })

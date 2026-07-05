@@ -1,13 +1,11 @@
+const path = require('path')
 
 module.exports = {
   mode: 'development',
-  entry: [
-    '@babel/polyfill', // enables async-await
-    './client/index.js'
-  ],
+  entry: ['./client/index.js'],
   output: {
-    path: __dirname,
-    filename: './public/bundle.js'
+    path: path.join(__dirname, 'public'),
+    filename: 'bundle.js'
   },
   resolve: {
     extensions: ['.js', '.jsx']
@@ -21,10 +19,8 @@ module.exports = {
         loader: 'babel-loader'
       },
       {
-        test: /.css$/,
-        loaders: [
-          'style-loader', 'css-loader',
-        ]
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
       }
     ]
   }

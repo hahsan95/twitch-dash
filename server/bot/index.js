@@ -2,13 +2,16 @@ const tmi = require('tmi.js')
 const axios = require('axios')
 
 module.exports = async (io) => {
+  if (!process.env.TWITCH_OAUTH_TOKEN) {
+    console.log('TWITCH_OAUTH_TOKEN not found. Skipping Twitch chat bot.')
+    return
+  }
   console.log('CREATING NEW TWITCHBOT')
   // Valid commands start with:
   let commandPrefix = '!'
 
-  const appUrl = (process.env.NODE_ENV === 'production')
-  ? `https://twitch-dash.herokuapp.com`
-  : `http://localhost:${process.env.PORT}`
+  const appUrl =
+    process.env.APP_URL || `http://localhost:${process.env.PORT || 4200}`
 
   // Get all active channels
   // TODO: change this link to make it work in deployed version
@@ -18,7 +21,7 @@ module.exports = async (io) => {
   })
   const opts = {
     identity: {
-      username: 'musicvoteb0t',
+      username: process.env.TWITCH_BOT_USERNAME || 'musicvoteb0t',
       password: process.env.TWITCH_OAUTH_TOKEN
     },
     channels
@@ -174,12 +177,8 @@ module.exports = async (io) => {
   }
 
   // Called every time the bot disconnects from Twitch:
+  // Don't take the whole server down when the chat connection drops.
   function onDisconnectedHandler (reason) {
     console.log(`Womp womp, disconnected: ${reason}`)
-    process.exit(1)
   }
-}
-
-const getActiveUsers = async () => {
-  return await axios.get(`${appUrl}/api/users/active`)
 }

@@ -57,7 +57,7 @@ router.post('/', async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
   try {
     const {active} = req.body
-    const votecycle = await Votecycle.findById(req.params.id)
+    const votecycle = await Votecycle.findByPk(req.params.id)
     const retVotecycle = await votecycle.update({active})
     res.json(retVotecycle)
   } catch(err) {
