@@ -193,9 +193,17 @@ router.get('/username/:username/:enum', async (req, res, next) => {
   }
 })
 
+// Session may reference a user that no longer exists (e.g. after a reseed);
+// respond 401 so the client can prompt a fresh login instead of crashing.
+const findSessionUser = req => {
+  if (!req.user) return Promise.resolve(null)
+  return User.findOne({ where: { twitchId: req.user.twitchId } })
+}
+
 router.get('/me/modules', async (req, res, next) => {
   try {
-    const user = await User.findOne({ where: { twitchId: req.user.twitchId } })
+    const user = await findSessionUser(req)
+    if (!user) return res.status(401).send('Session expired. Please log in again.')
     const modules = await user.getAllModules()
     res.json(modules)
   } catch (err) {
@@ -206,7 +214,8 @@ router.get('/me/modules', async (req, res, next) => {
 router.post('/me/modules', async (req, res, next) => {
   const { moduleId } = req.body
   try {
-    const user = await User.findOne({ where: { id: req.user.id } })
+    const user = await findSessionUser(req)
+    if (!user) return res.status(401).send('Session expired. Please log in again.')
     await ModuleUser.create({
       moduleId: moduleId,
       userId: user.id,
@@ -221,7 +230,8 @@ router.post('/me/modules', async (req, res, next) => {
 router.put('/me/modules', async (req, res, next) => {
   const { moduleId } = req.body
   try {
-    const user = await User.findOne({ where: { twitchId: req.user.twitchId } })
+    const user = await findSessionUser(req)
+    if (!user) return res.status(401).send('Session expired. Please log in again.')
     const moduleUserRelationship = await ModuleUser.findOne({
       where: {
         userId: user.id,

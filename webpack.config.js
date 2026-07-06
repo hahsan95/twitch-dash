@@ -1,13 +1,16 @@
+const path = require('path')
 
 module.exports = {
   mode: 'development',
-  entry: [
-    '@babel/polyfill', // enables async-await
-    './client/index.js'
-  ],
+  optimization: {
+    // Embed the real NODE_ENV into the bundle (defaults to the webpack mode
+    // otherwise), so e.g. NODE_ENV=test builds can gate test-only modules.
+    nodeEnv: process.env.NODE_ENV || 'development'
+  },
+  entry: ['./client/index.js'],
   output: {
-    path: __dirname,
-    filename: './public/bundle.js'
+    path: path.join(__dirname, 'public'),
+    filename: 'bundle.js'
   },
   resolve: {
     extensions: ['.js', '.jsx']
@@ -21,10 +24,8 @@ module.exports = {
         loader: 'babel-loader'
       },
       {
-        test: /.css$/,
-        loaders: [
-          'style-loader', 'css-loader',
-        ]
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
       }
     ]
   }
