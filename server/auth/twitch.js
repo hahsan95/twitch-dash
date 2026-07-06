@@ -11,7 +11,10 @@ if (!process.env.TWITCH_CLIENT_ID || !process.env.TWITCH_CLIENT_SECRET) {
   const twitchConfig = {
     clientID: process.env.TWITCH_CLIENT_ID,
     clientSecret: process.env.TWITCH_CLIENT_SECRET,
-    callbackURL: process.env.TWITCH_CALLBACK_URL
+    callbackURL: process.env.TWITCH_CALLBACK_URL,
+    // Twitch's Helix API requires a Client-Id header on every request;
+    // passport-twitch-new predates that and only sends the Bearer token.
+    customHeaders: {'Client-ID': process.env.TWITCH_CLIENT_ID}
   }
 
   const strategy = new TwitchStrategy(
