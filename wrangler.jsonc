@@ -1,0 +1,19 @@
+/**
+ * Cloudflare Workers config for the static demo build.
+ * Assets-only Worker (no edge code): serves public/ and falls back to
+ * index.html for client-side routes like /home. Note: Workers ignores
+ * public/_redirects (that file is only used by Cloudflare Pages).
+ *
+ * Deploys via Workers Builds: build command `npm run build-demo`,
+ * deploy command `npx wrangler deploy`.
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Must match the Worker name in the Cloudflare dashboard.
+  "name": "twitch-dash",
+  "compatibility_date": "2026-07-05",
+  "assets": {
+    "directory": "./public",
+    "not_found_handling": "single-page-application"
+  }
+}
