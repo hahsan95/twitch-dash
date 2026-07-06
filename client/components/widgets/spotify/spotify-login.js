@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Card, Button, Icon } from 'semantic-ui-react'
+import { DEMO_MODE } from '../../../demo/config'
 
 const SpotifyLogin = () => {
   return (
@@ -24,13 +25,21 @@ const SpotifyLogin = () => {
           color='blue'
           size='huge'
         />
-        <a href="/auth/spotify">
-          <Button primary floated='right'>
+        {DEMO_MODE ? (
+          <Button primary floated='right' disabled>
             <Button.Content>
-              Connect to Spotify
+              Spotify unavailable in demo
             </Button.Content>
           </Button>
-        </a>
+        ) : (
+          <a href="/auth/spotify">
+            <Button primary floated='right'>
+              <Button.Content>
+                Connect to Spotify
+              </Button.Content>
+            </Button>
+          </a>
+        )}
       </div>
     </Card>
   )

@@ -1,8 +1,13 @@
 import io from 'socket.io-client'
 import { whiteboardEvents } from './components/widgets/whiteboard'
 import { gameboyEvents } from './components/widgets/gameboy'
+import { DEMO_MODE } from './demo/config'
 
-const clientSocket = io(window.location.origin)
+// In the static demo build there's no socket server: use an inert stub so
+// widgets can emit into the void instead of endlessly retrying a connection.
+const clientSocket = DEMO_MODE
+  ? { on: () => {}, emit: () => {} }
+  : io(window.location.origin)
 const roomName = window.location.pathname
 
 clientSocket.on('connect', () => {

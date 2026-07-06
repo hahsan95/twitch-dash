@@ -1,3 +1,6 @@
+// Must come first: in demo builds this intercepts all app API calls
+// before any other module (e.g. allModules) fires a request.
+import './demo/setup'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {Provider} from 'react-redux'
