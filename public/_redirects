@@ -1,0 +1,3 @@
+# Cloudflare Pages SPA fallback: serve index.html for all client-side routes.
+# (Harmless when public/ is served by the Express app instead.)
+/* /index.html 200

@@ -14,7 +14,9 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': '"production"'
+      'process.env.NODE_ENV': '"production"',
+      'process.env.DEMO_MODE': '"false"',
+      'process.env.TWITCH_CLIENT_ID': '""'
     }),
     new webpack.IgnorePlugin({
       resourceRegExp: /^\.\/locale$/,

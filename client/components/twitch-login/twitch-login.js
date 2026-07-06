@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { Card, Button, Icon, Image } from 'semantic-ui-react'
 import styled from 'styled-components'
+import { DEMO_MODE } from '../../demo/config'
+import { loginUrl } from '../../demo/auth'
 
 const Wrapper = styled.div`
 display: flex;
@@ -32,7 +34,7 @@ const TwitchLogin = () => {
             {/* Welcome to twitch dash */}
           </Card.Header>
           <Card.Description>
-            <a href="/auth/twitch">
+            <a href={DEMO_MODE ? loginUrl() : '/auth/twitch'}>
               <Button primary animated>
               <Button.Content visible>Login with Twitch</Button.Content>
               <Button.Content hidden>
