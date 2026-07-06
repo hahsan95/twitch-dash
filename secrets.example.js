@@ -9,7 +9,7 @@
 // Set the OAuth Redirect URL to http://localhost:4200/auth/twitch/callback
 process.env.TWITCH_CLIENT_ID = ''
 process.env.TWITCH_CLIENT_SECRET = ''
-process.env.TWITCH_CALLBACK_URL = 'http://localhost:4200/auth/twitch/callback'
+process.env.TWITCH_CALLBACK_URL = 'http://localhost:4200/auth/twitch/callback' //
 
 // --- Required for the Twitch chat bot (skipped if unset) ---
 // An OAuth token for the bot account, in the form 'oauth:xxxxxxxxxxxx'.
@@ -18,6 +18,7 @@ process.env.TWITCH_OAUTH_TOKEN = ''
 process.env.TWITCH_BOT_USERNAME = ''
 
 // --- Session ---
+// Generate random string with node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 process.env.SESSION_SECRET = 'change me to something random'
 
 // --- Optional: base URL the bot uses to call back into this app ---
