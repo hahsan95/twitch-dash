@@ -12,8 +12,6 @@
   // Must match the Worker name in the Cloudflare dashboard.
   "name": "twitch-dash",
   "compatibility_date": "2026-07-05",
-  // Custom-domain routes disable the workers.dev URL by default; keep it on.
-  "workers_dev": true,
   "routes": [
     { "pattern": "twitchdash.app", "custom_domain": true },
     { "pattern": "www.twitchdash.app", "custom_domain": true }
