@@ -68,7 +68,18 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
     ]
   }))
 
-  router.get('/callback', passport.authenticate('spotify', { failureRedirect: '/' }),
+  // Spotify requires its redirect URI to use 127.0.0.1 (localhost is banned),
+  // but the rest of the app runs on localhost, where the session cookie lives.
+  // When the callback lands on 127.0.0.1, bounce the browser to the same URL
+  // on localhost so passport sees the logged-in session. The token exchange
+  // still uses the registered 127.0.0.1 redirect URI, so Spotify accepts it.
+  router.get('/callback', (req, res, next) => {
+    if (req.hostname === '127.0.0.1') {
+      const port = process.env.PORT || 4200
+      return res.redirect(`http://localhost:${port}${req.originalUrl}`)
+    }
+    next()
+  }, passport.authenticate('spotify', { failureRedirect: '/' }),
     async (req, res, next) => {
       try {
         const { code, state } = req.query

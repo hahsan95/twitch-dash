@@ -10,7 +10,8 @@
 
 // --- Required: Twitch OAuth login ---
 // Register an application at https://dev.twitch.tv/console/apps
-// OAuth Redirect URLs (register both):
+// Twitch only allows http for localhost (not 127.0.0.1), so browse the app
+// at http://localhost:4200. OAuth Redirect URLs (register both):
 //   local: http://localhost:4200/auth/twitch/callback
 //   prod:  https://twitchdash.app/auth/twitch/callback
 process.env.TWITCH_CLIENT_ID = ''
