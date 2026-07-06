@@ -43,6 +43,7 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
         }
       } catch (err) {
         console.error(err)
+        done(err)
       }
   })
 
@@ -79,4 +80,15 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
       }
     }
   )
+
+  // OAuth errors (e.g. Spotify's dev-mode Premium 403, or a reused/expired
+  // authorization code on refresh) reach here via next(err) rather than
+  // failureRedirect. Redirect back to the app instead of showing a 500 page.
+  router.use((err, req, res, next) => {
+    console.error('Spotify OAuth error:', err.message || err)
+    if (err.oauthError && err.oauthError.data) {
+      console.error('Spotify said:', err.oauthError.data)
+    }
+    res.redirect('/home?spotifyError=1')
+  })
 }
