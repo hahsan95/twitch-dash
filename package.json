@@ -9,6 +9,7 @@
   "scripts": {
     "build-client": "webpack",
     "build-client-watch": "webpack -w",
+    "build-demo": "webpack --config demo.config.js",
     "deploy": "script/deploy",
     "lint": "eslint ./ --ignore-path .gitignore",
     "lint-fix": "npm run lint -- --fix",
