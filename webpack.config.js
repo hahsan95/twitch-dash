@@ -2,6 +2,11 @@ const path = require('path')
 
 module.exports = {
   mode: 'development',
+  optimization: {
+    // Embed the real NODE_ENV into the bundle (defaults to the webpack mode
+    // otherwise), so e.g. NODE_ENV=test builds can gate test-only modules.
+    nodeEnv: process.env.NODE_ENV || 'development'
+  },
   entry: ['./client/index.js'],
   output: {
     path: path.join(__dirname, 'public'),

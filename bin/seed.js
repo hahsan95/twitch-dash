@@ -8,7 +8,11 @@ const seed = async () => {
 
   await db.sync({ force: true })
 
-  await Promise.all(moduleData.map(mData => Module.create({...mData})))
+  // Create sequentially so auto-increment IDs match the order in
+  // modules.json (client/allModules.js registers components by ID).
+  for (const mData of moduleData) {
+    await Module.create({...mData})
+  }
 
   console.log(`
     Seeding of Modules table successful!
