@@ -12,6 +12,10 @@
   // Must match the Worker name in the Cloudflare dashboard.
   "name": "twitch-dash",
   "compatibility_date": "2026-07-05",
+  "routes": [
+    { "pattern": "twitchdash.app", "custom_domain": true },
+    { "pattern": "www.twitchdash.app", "custom_domain": true }
+  ],
   "assets": {
     "directory": "./public",
     "not_found_handling": "single-page-application"
